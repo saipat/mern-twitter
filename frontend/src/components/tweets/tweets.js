@@ -16,7 +16,8 @@ class Tweet extends React.Component {
         this.props.fetchTweets();
     }
     
-    //Invoked b4 a mounted component recieve props. if you want to update the state in response to the prop changes, use this.setState to perform state transitions.
+    //Invoked b4 a mounted component recieve props.
+    //This lets us define things we want to happen when a component receives new props.  //In this case, we're calling setState which is a built in method in the react library which updates our component's local state and forces the component to rerender with our updated info.
     componentWillReceiveProps(newState) {
         this.setState({ tweets: newState.tweets });
     }
