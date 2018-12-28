@@ -39,10 +39,14 @@ export const signup = user => dispatch => (
 
 // Upon login, set the session token and dispatch the current user. Dispatch errors on failure.
 export const login = user => dispatch => (
-    APIUtil.login(user).then(res => {
+    APIUtil.login(user)
+    .then(res => {
         const { token } = res.data;
+        //To have the token in the local storage even after closing the browser.
         localStorage.setItem('jwtToken', token);
+        //To set the header for future axios req, inorder to pass along the jwt to our backend, to allow us to be authenticated.
         APIUtil.setAuthToken(token);
+        //decode the token.
         const decoded = jwt_decode(token);
         dispatch(receiveCurrentUser(decoded));
     })
@@ -51,7 +55,7 @@ export const login = user => dispatch => (
     })
 );
 
-// We wrote this one earlier
+//Remove the jwt from the localStorage, remove the auth header & remove the user from the redux store.
 export const logout = () => dispatch => {
     localStorage.removeItem('jwtToken');
     APIUtil.setAuthToken(false);

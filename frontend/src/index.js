@@ -2,19 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 
-// We will create this component shortly
 import Root from './components/root';
-
-// We set this up in the last section
 import configureStore from './store/store';
 
 // We will use this to parse the user's session token
 import jwt_decode from 'jwt-decode';
-
-// The session utility we just created
 import { setAuthToken } from './util/session_api_util';
-
-// We have not created this action yet, but will do so in the next step
 import { logout } from './actions/session_actions';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -30,25 +23,27 @@ document.addEventListener('DOMContentLoaded', () => {
         const decodedUser = jwt_decode(localStorage.jwtToken);
 
         // Create a preconfigured state we can immediately add to our store
-        const preloadedState = { session: { isAuthenticated: true, user: decodedUser } };
+        const preloadedState = { 
+            session: { 
+                isAuthenticated: true, 
+                user: decodedUser 
+            } 
+        };
 
         store = configureStore(preloadedState);
-
         const currentTime = Date.now() / 1000;
 
-        // If the user's token has expired
+        // If the user's (jwt)token has expired
         if (decodedUser.exp < currentTime) {
-        // Logout the user and redirect to the login page
-        store.dispatch(logout());
-        window.location.href = '/login';
+            // Logout the user(removing from the redux store) and redirect to the login page
+            store.dispatch(logout());
+            window.location.href = '/login';
         }
     } else {
         // If this is a first time user, start with an empty store
         store = configureStore({});
     }
     window.axios = axios;
-    // Render our root component and pass in the store as a prop
     const root = document.getElementById('root');
-
     ReactDOM.render(<Root store={store} />, root);
 });
