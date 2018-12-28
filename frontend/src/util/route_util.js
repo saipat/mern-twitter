@@ -29,6 +29,7 @@ const Protected = ({ component: Component, loggedIn, ...rest }) => (
 );
 
 // Use the isAuthenitcated slice of state to determine whether a user is logged in
+
 const mapStateToProps = state => (
   {loggedIn: state.session.isAuthenticated}
 );
