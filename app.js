@@ -1,13 +1,17 @@
 //TO create a new express server.
 const express = require("express");
 const app = express();
+
 const mongoose = require('mongoose');
 const db = require('./config/keys').mongoURI;
+
 //Import routes.
 const users = require('./routes/api/users');
 const tweets = require('./routes/api/tweets');
+
 //Import the User model
 const User = require('./models/User');
+
 //body-parser: Tell our app what source of req it should respond to
 const bodyParser = require('body-parser');
 const passport = require('passport');
@@ -38,16 +42,16 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 
-//Basic route to get some render information on the page.
-app.get("/", (req, res) => {
-    const user = new User({
-        handle: 'jim',
-        email: 'jim@jim.com',
-        password: '123456',
-    });
-    user.save();
-    res.send("Hello World!");
-});
+// //Basic route to get some render information on the page.
+// app.get("/", (req, res) => {
+//     const user = new User({
+//         handle: 'jim',
+//         email: 'jim@jim.com',
+//         password: '123456',
+//     });
+//     user.save();
+//     res.send("Hello World!");
+// });
 
 //Tell express to use our newly imported routes.
 app.use('/api/users', users);
